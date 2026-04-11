@@ -1,3 +1,4 @@
+//AUTHOR TREAVOR MAKHUBELA//
 /**
  * Login class handles user registration and authentication.
  * PROG5121 - Part 1: Registration and Login Feature
