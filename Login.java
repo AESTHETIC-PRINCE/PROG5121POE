@@ -1,14 +1,17 @@
 /**
- * Author:TREAVOR MAKHUBELA
- * Student Number: ST10511929
- * Date: April 2026
- * Description: Login class handles user registration
- * and authentication for PROG5121 Part 1
- */
-public class Login {
-/**
  * Login class handles user registration and authentication.
  * PROG5121 - Part 1: Registration and Login Feature
+
+ * Author:TREAVOR MAKHUBELA
+
+ * Student Number: ST10511929
+
+ * Date: April 2026
+
+ * Description: Login class handles user registration
+
+ * and authentication for PROG5121 Part 1
+
  */
 public class Login {
 
@@ -147,4 +150,3 @@ public class Login {
     public String getFirstName()     { return firstName; }
     public String getLastName()      { return lastName; }
 }
-
