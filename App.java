@@ -1,6 +1,10 @@
 import java.util.Scanner;
-
 /**
+ * Author: TREAVOR MAKHUBELA
+ * Student Number: ST10511929
+ * Date: April 2026
+ * 
+ *
  * App.java – Entry point for the Registration and Login application.
  * Run this class to interact with the system via the console.
  */
