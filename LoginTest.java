@@ -1,7 +1,12 @@
 import org.junit.Test;
 import static org.junit.Assert.*;
-
 /**
+ * LoginTest.java
+ * Author:TREAVOR MAKHUBELA
+ * Student Number: ST10511929
+ * Date: April 2026
+ * Purpose: Unit tests to verify the Login class
+ * works correctly for PROG5121 Part 1
  * LoginTest.java - Unit tests for the Login class.
  * Uses JUnit 4 (compatible with NetBeans Ant projects).
  */
