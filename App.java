@@ -6,7 +6,6 @@ import java.util.Scanner;
  * 
  *
  * App.java – Entry point for the Registration and Login application.
- * Run this class to interact with the system via the console.
  */
 public class App {
 
