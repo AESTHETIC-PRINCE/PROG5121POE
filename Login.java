@@ -75,12 +75,10 @@ public class Login {
      *  - Start with an international country code (e.g. +27)
      *  - Be no more than ten characters after the country code
      *
-     * Regex breakdown:
+     *  breakdown:
      *   ^\+       → starts with a literal '+'
      *   \d{1,3}   → country code (1-3 digits, e.g. 27 for South Africa)
      *   \d{7,10}$ → local number (7-10 digits)
-     *
-     * Reference: Java Pattern docs – https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html
      *
      * @return true if valid, false otherwise
      */
@@ -123,9 +121,9 @@ public class Login {
      * @param enteredPassword the password typed by the user
      * @return true if credentials match, false otherwise
      */
-    public boolean loginUser(String enteredUsername, String enteredPassword) {
-        return this.username.equals(enteredUsername)
-            && this.password.equals(enteredPassword);
+    public boolean loginUser(String inputUsername, String inputPassword) {
+    return this.username.equals(inputUsername)
+        && this.password.equals(inputPassword);
     }
 
     /**
@@ -137,16 +135,16 @@ public class Login {
      * @param enteredPassword the password typed by the user
      * @return String login status message
      */
-    public String returnLoginStatus(String enteredUsername, String enteredPassword) {
-        if (loginUser(enteredUsername, enteredPassword)) {
+public String returnLoginStatus(String inputUsername, String inputPassword) {
+    if (loginUser(inputUsername, inputPassword)) {
             return "Welcome " + firstName + " " + lastName + " it is great to see you.";
         }
         return "Username or password incorrect, please try again.";
     }
 
     // ── Getters (needed by unit tests) ───────────────────────────────────────
-    public String getUsername()      { return username; }
-    public String getPassword()      { return password; }
-    public String getFirstName()     { return firstName; }
-    public String getLastName()      { return lastName; }
+public String fetchUsername()     { return username; }
+public String fetchPassword()     { return password; }
+public String fetchFirstName()    { return firstName; }
+public String fetchLastName()     { return lastName; }
 }
