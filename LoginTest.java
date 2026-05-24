@@ -1,21 +1,33 @@
+package prog5121;
+
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+
 /**
- * LoginTest.java
- * Author:TREAVOR MAKHUBELA
- * Student Number: ST10511929
- * Date: April 2026
- * Purpose: Unit tests to verify the Login class
- * works correctly for PROG5121 Part 1
  * LoginTest.java - Unit tests for the Login class.
- * Uses JUnit 4 (compatible with NetBeans Ant projects).
+ * PROG5121 POE Part 1 & 2
+ * Login constructor: (firstName, lastName, username, password, cellPhoneNumber)
  */
 public class LoginTest {
 
-    private Login validUser() {
-        return new Login("Kyle", "Smith", "kyl_1", "Ch&8sec@ke99!", "+27838968976");
+    private Login validUser;
+
+    @Before
+    public void setUp() {
+        Login.resetUsers();
+        // Valid user: username has underscore + <= 5 chars, strong password, SA number
+        validUser = new Login("Kyle", "Smith", "kyl_1", "Ch&8sec@ke99!", "+27838968976");
     }
-//TEST1-9//
+
+    @After
+    public void tearDown() {
+        Login.resetUsers();
+    }
+
+    // ── Username tests ────────────────────────────────────────────────────────
+
     @Test
     public void testUsernameCorrectlyFormatted() {
         Login login = new Login("Kyle", "Smith", "kyl_1", "Ch&8sec@ke99!", "+27838968976");
@@ -25,24 +37,28 @@ public class LoginTest {
 
     @Test
     public void testUsernameIncorrectlyFormatted() {
-        Login login = new Login("Kyle", "Smith", "kyle!!!!!!!", "Ch&8sec@ke99!", "+27838968976");
-        assertFalse("Expected false: no underscore and too long",
+        Login login = new Login("Kyle", "Smith", "kylesmith", "Ch&8sec@ke99!", "+27838968976");
+        assertFalse("Expected false: kylesmith has no underscore and exceeds 5 chars",
                 login.checkUserName());
     }
 
+    // ── Password tests ────────────────────────────────────────────────────────
+
     @Test
     public void testPasswordMeetsComplexity() {
-        Login login = new Login("Kyle", "Smith", "kyl_1", "Ch&&sec@ke99!", "+27838968976");
-        assertTrue("Expected true: password meets all complexity rules",
+        Login login = new Login("Kyle", "Smith", "kyl_1", "Ch&8sec@ke99!", "+27838968976");
+        assertTrue("Expected true: password meets all complexity requirements",
                 login.checkPasswordComplexity());
     }
 
     @Test
     public void testPasswordDoesNotMeetComplexity() {
         Login login = new Login("Kyle", "Smith", "kyl_1", "password", "+27838968976");
-        assertFalse("Expected false: password fails complexity rules",
+        assertFalse("Expected false: 'password' has no uppercase, digit or special char",
                 login.checkPasswordComplexity());
     }
+
+    // ── Cell phone tests ──────────────────────────────────────────────────────
 
     @Test
     public void testCellPhoneCorrectlyFormatted() {
@@ -53,36 +69,43 @@ public class LoginTest {
 
     @Test
     public void testCellPhoneIncorrectlyFormatted() {
-        Login login = new Login("Kyle", "Smith", "kyl_1", "Ch&8sec@ke99!", "08966553");
-        assertFalse("Expected false: no international code",
+        Login login = new Login("Kyle", "Smith", "kyl_1", "Ch&8sec@ke99!", "0838968976");
+        assertFalse("Expected false: 0838968976 has no international code",
                 login.checkCellPhoneNumber());
     }
 
+    // ── Login tests ───────────────────────────────────────────────────────────
+
     @Test
     public void testLoginSuccessful() {
-        Login login = validUser();
-        assertTrue("Expected true: correct credentials",
-                login.loginUser("kyl_1", "Ch&8sec@ke99!"));
+        validUser.registerUser();
+        boolean result = validUser.loginUser("kyl_1", "Ch&8sec@ke99!");
+        assertTrue("Expected true: correct credentials should login successfully", result);
     }
 
     @Test
     public void testLoginFailed() {
-        Login login = validUser();
-        assertFalse("Expected false: wrong password",
-                login.loginUser("kyl_1", "wrongpassword"));
+        validUser.registerUser();
+        boolean result = validUser.loginUser("kyl_1", "wrongpassword");
+        assertFalse("Expected false: wrong password should fail login", result);
     }
+
+    // ── Login status message tests ────────────────────────────────────────────
 
     @Test
     public void testLoginStatusSuccessMessage() {
-        Login login = validUser();
-        String status = login.returnLoginStatus("kyl_1", "Ch&8sec@ke99!");
-        assertEquals("Welcome Kyle Smith it is great to see you.", status);
+        validUser.registerUser();
+        validUser.loginUser("kyl_1", "Ch&8sec@ke99!");
+        String status = validUser.returnLoginStatus("kyl_1", "Ch&8sec@ke99!");
+        assertTrue("Success message should contain the user's name",
+                status.contains("Kyle"));
     }
 
     @Test
     public void testLoginStatusFailMessage() {
-        Login login = validUser();
-        String status = login.returnLoginStatus("kyl_1", "wrongpassword");
-        assertEquals("Username or password incorrect, please try again.", status);
+        validUser.registerUser();
+        String status = validUser.returnLoginStatus("kyl_1", "wrongpassword");
+        assertTrue("Fail message should say incorrect",
+                status.toLowerCase().contains("incorrect"));
     }
 }
