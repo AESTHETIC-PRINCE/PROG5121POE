@@ -28,11 +28,11 @@ jobs:
       - name: Compile source files
         run: |
           mkdir -p out
-          javac -d out src/prog5121/Login.java src/prog5121/Message.java src/prog5121/App.java
+          javac -d out Login.java Message.java App.java
 
       - name: Compile tests
         run: |
-          javac -cp out:junit-4.13.2.jar -d out test/prog5121/LoginTest.java test/prog5121/MessageTest.java
+          javac -cp out:junit-4.13.2.jar -d out LoginTest.java MessageTest.java
 
       - name: Run tests
         run: |
