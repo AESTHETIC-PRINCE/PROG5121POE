@@ -2,9 +2,9 @@ name: Java CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, KhanbanTasks ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, KhanbanTasks ]
 
 jobs:
   build:
