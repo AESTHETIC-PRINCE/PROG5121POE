@@ -11,25 +11,35 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'temurin'
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
 
-    - name: Download JUnit
-      run: |
-        wget https://repo1.maven.org/maven2/junit/junit/4.13.2/junit-4.13.2.jar
-        wget https://repo1.maven.org/maven2/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar
+      - name: Download JUnit
+        run: |
+          wget -q https://repo1.maven.org/maven2/junit/junit/4.13.2/junit-4.13.2.jar
+          wget -q https://repo1.maven.org/maven2/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar
 
-    - name: Compile Java files
-      run: |
-        mkdir -p out
-        javac -d out -cp .:junit-4.13.2.jar:hamcrest-core-1.3.jar *.java
+      - name: Set up folder structure
+        run: |
+          mkdir -p src/prog5121
+          mkdir -p out
+          mv Login.java Message.java App.java src/prog5121/
+          mv LoginTest.java MessageTest.java src/prog5121/
 
-    - name: Run tests
-      run: |
-        java -cp out:junit-4.13.2.jar:hamcrest-core-1.3.jar org.junit.runner.JUnitCore LoginTest MessageTest
+      - name: Compile source files
+        run: |
+          javac -d out src/prog5121/Login.java src/prog5121/Message.java src/prog5121/App.java
+
+      - name: Compile test files
+        run: |
+          javac -cp out:junit-4.13.2.jar -d out src/prog5121/LoginTest.java src/prog5121/MessageTest.java
+
+      - name: Run tests
+        run: |
+          java -cp out:junit-4.13.2.jar:hamcrest-core-1.3.jar org.junit.runner.JUnitCore prog5121.LoginTest prog5121.MessageTest
