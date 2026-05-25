@@ -1,0 +1,76 @@
+name: QuickChat CI - Part 2
+
+on:
+  push:
+    branches: [ main, KhanbanTasks ]
+  pull_request:
+    branches: [ main, KhanbanTasks ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Download JUnit 4 and Hamcrest
+        run: |
+          wget -q https://repo1.maven.org/maven2/junit/junit/4.13.2/junit-4.13.2.jar
+          wget -q https://repo1.maven.org/maven2/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar
+
+      - name: Show all Java files in repo
+        run: find . -name "*.java" | sort
+
+      - name: Create package folder structure
+        run: |
+          mkdir -p src/prog5121
+          mkdir -p out
+
+      - name: Move source files into package folder
+        run: |
+          for f in Login.java Message.java App.java; do
+            if [ -f "$f" ]; then
+              cp "$f" src/prog5121/
+              echo "Copied $f"
+            else
+              echo "WARNING: $f not found in root"
+            fi
+          done
+
+      - name: Move test files into package folder
+        run: |
+          for f in LoginTest.java MessageTest.java; do
+            if [ -f "$f" ]; then
+              cp "$f" src/prog5121/
+              echo "Copied $f"
+            else
+              echo "WARNING: $f not found in root"
+            fi
+          done
+
+      - name: Compile source files
+        run: |
+          javac -d out \
+            src/prog5121/Login.java \
+            src/prog5121/Message.java \
+            src/prog5121/App.java
+
+      - name: Compile test files
+        run: |
+          javac -cp out:junit-4.13.2.jar -d out \
+            src/prog5121/LoginTest.java \
+            src/prog5121/MessageTest.java
+
+      - name: Run all unit tests
+        run: |
+          java -cp out:junit-4.13.2.jar:hamcrest-core-1.3.jar \
+            org.junit.runner.JUnitCore \
+            prog5121.LoginTest \
+            prog5121.MessageTest
