@@ -27,19 +27,33 @@ jobs:
 
       - name: Set up folder structure
         run: |
-          mkdir -p src/prog5121
+          mkdir -p src/prog5121poe
           mkdir -p out
-          mv Login.java Message.java App.java src/prog5121/
-          mv LoginTest.java MessageTest.java src/prog5121/
+
+      - name: Copy source files
+        run: |
+          cp Login.java Message.java App.java src/prog5121poe/
+
+      - name: Copy test files
+        run: |
+          cp LoginTest.java MessageTest.java src/prog5121poe/
 
       - name: Compile source files
         run: |
-          javac -d out src/prog5121/Login.java src/prog5121/Message.java src/prog5121/App.java
+          javac -d out \
+            src/prog5121poe/Login.java \
+            src/prog5121poe/Message.java \
+            src/prog5121poe/App.java
 
       - name: Compile test files
         run: |
-          javac -cp out:junit-4.13.2.jar -d out src/prog5121/LoginTest.java src/prog5121/MessageTest.java
+          javac -cp out:junit-4.13.2.jar -d out \
+            src/prog5121poe/LoginTest.java \
+            src/prog5121poe/MessageTest.java
 
       - name: Run tests
         run: |
-          java -cp out:junit-4.13.2.jar:hamcrest-core-1.3.jar org.junit.runner.JUnitCore prog5121.LoginTest prog5121.MessageTest
+          java -cp out:junit-4.13.2.jar:hamcrest-core-1.3.jar \
+            org.junit.runner.JUnitCore \
+            prog5121poe.LoginTest \
+            prog5121poe.MessageTest
