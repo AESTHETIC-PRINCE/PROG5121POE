@@ -45,11 +45,11 @@ jobs:
             src/prog5121poe/Message.java \
             src/prog5121poe/App.java
 
-      - name: Compile test files
+      - name: Compile source files
         run: |
-          javac -cp out:junit-4.13.2.jar -d out \
-            src/prog5121poe/LoginTest.java \
-            src/prog5121poe/MessageTest.java
+          javac -d out src/prog5121poe/Login.java
+          javac -d out -cp out src/prog5121poe/Message.java
+          javac -d out -cp out src/prog5121poe/App.java
 
       - name: Run tests
         run: |
