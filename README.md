@@ -1,42 +1,122 @@
-# PROG5121 - Part 1: Registration and Login Feature
+# QuickChat – PROG5121 POE
 
-## Author
-- **Name:** TREAVOR MAKHUBELA
-- **Student Number:** ST10511929
-- **Date:** April 2026
+**Student:** Mandisa Treavor Makhubela
+**Student Number:** ST10511929
+**Module:** Programming 1A – PROG5121
+**Year:** 2026
 
-## Project Description
-This is a console-based Java application built for PROG5121 Part 1.
-The application allows users to register and login using a 
-username, password, and South African cell phone number.
+---
 
-## Features
-- User registration with input validation
+## Project Overview
+
+QuickChat is a Java console-based messaging application built across three parts of the PROG5121 Portfolio of Evidence (POE). The application allows users to register, log in, send messages, store messages, and manage their message history.
+
+---
+
+## Features by Part
+
+### Part 1 – Registration and Login
+- User registration with username and password validation
 - Username must contain an underscore and be no more than 5 characters
-- Password must be at least 8 characters with a capital letter, 
-  number, and special character
-- Cell phone number must contain an international code (e.g. +27)
-- Login authentication with success and failure messages
+- Password must be at least 8 characters with an uppercase letter, number, and special character
+- Login authentication with status messages
+- Cell phone number validation
+
+### Part 2 – QuickChat Messaging
+- Welcome to QuickChat message after successful login
+- Numeric menu: Send Messages | Coming Soon | Quit
+- Message class with auto-generated Message ID (10 digits) and Message Hash
+- Message Hash format: `[first 2 of ID]:[messageNumber]:[FIRSTWORD][LASTWORD]`
+- Send, Disregard, or Store messages
+- Messages stored to `messages.json`
+- Unit tests for all validations
+
+### Part 3 – Store Data and Display
+- Arrays populated at runtime (no hard-coding):
+  - Sent Messages
+  - Disregarded Messages
+  - Stored Messages (loaded from JSON)
+  - Message Hashes
+  - Message IDs
+- New menu option: **Stored Messages** with:
+  - Display sender and recipient of all stored messages
+  - Display the longest stored message
+  - Search for a message by ID
+  - Search all messages for a particular recipient
+  - Delete a message using its hash
+  - Display full message report
+
+---
+
+## Project Structure
+
+```
+PROG5121POE/
+├── src/
+│   └── prog5121poe/
+│       ├── App.java          - Main application entry point
+│       ├── Login.java        - User registration and authentication
+│       └── Message.java      - Message class with all features
+├── test/
+│   └── prog5121poe/
+│       ├── LoginTest.java    - Unit tests for Login class
+│       └── MessageTest.java  - Unit tests for Message class
+├── .github/
+│   └── workflows/
+│       └── java-ci.yml       - GitHub Actions CI/CD pipeline
+├── messages.json             - Stored messages file (auto-generated)
+├── build.xml                 - Apache Ant build file
+└── README.md
+```
+
+---
 
 ## How to Run
-1. Open the project in NetBeans
-2. Run App.java as the main class
-3. Follow the console prompts to register and login
 
-## Unit Tests
-Unit tests are written using JUnit 4 and can be found in LoginTest.java.
+### In NetBeans
+1. Open the project: **File → Open Project → select PROG5121POE**
+2. Right-click `App.java` → **Run File**
+3. Follow the prompts to register and log in
 
-### Test Cases
-- Username correctly formatted: kyl_1 → returns true
-- Username incorrectly formatted: kyle!!!! → returns false
-- Password meets complexity: Ch&8sec@ke99! → returns true
-- Password fails complexity: password → returns false
-- Cell phone correctly formatted: +27838968976 → returns true
-- Cell phone incorrectly formatted: 08966553 → returns false
-- Login successful → returns true
-- Login failed → returns false
+### Using Ant (Command Line)
+```bash
+ant run
+```
 
-## Classes
-- **Login.java** - Contains all validation and authentication methods
-- **App.java** - Main entry point for the application
-- **LoginTest.java** - JUnit 4 unit tests
+### Run Tests
+```bash
+ant test
+```
+Or right-click `MessageTest.java` in NetBeans → **Test File**
+
+---
+
+## Test Data (Part 3)
+
+| # | Recipient | Message | Flag |
+|---|-----------|---------|------|
+| 1 | +27834557896 | Did you get the cake? | Sent |
+| 2 | +27838884567 | It is dinner time! | Sent |
+| 3 | +27834557896 | Where are you? You are late! I have asked you to be on time | Sent |
+| 4 | +27833232123 | Yoh, are you coming? | Stored |
+
+---
+
+## Technologies Used
+
+- **Java 17**
+- **Apache Ant** – Build tool
+- **JUnit 4** – Unit testing
+- **GitHub Actions** – CI/CD pipeline
+- **JSON** – Message storage
+
+---
+
+## GitHub Actions CI/CD
+
+The project uses GitHub Actions to automatically compile and run all unit tests on every push to `main` and `KhanbanTasks` branches.
+
+Workflow file: `.github/workflows/java-ci.yml`
+
+---
+
